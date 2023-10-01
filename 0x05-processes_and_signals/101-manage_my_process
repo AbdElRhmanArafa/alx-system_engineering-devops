@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+# work with deamons
+PROCESS_NAME="manage_my_process"
+PROCESS_EXEC="./manage_my_process"
+PID_FILE="/var/run/my_process.pid"
+
+start_process() {
+    # Check if the process is already running
+    if [ -f "$PID_FILE" ]; then
+        echo "$PROCESS_NAME is already running with PID $(cat $PID_FILE)."
+    else
+        $PROCESS_EXEC >/tmp/my_process &
+        PID=$!
+        echo $PID > $PID_FILE
+        echo "$PROCESS_NAME started with PID $PID."
+    fi
+}
+
+stop_process() {
+    if [ -f "$PID_FILE" ]; then
+        PID=$(cat $PID_FILE)
+        kill $PID
+        rm $PID_FILE
+        echo "$PROCESS_NAME stopped."
+    else
+        echo "$PROCESS_NAME is not running."
+    fi
+}
+
+restart_process() {
+    stop_process
+    start_process
+    echo "$PROCESS_NAME restarted."
+}
+
+usage() {
+    echo "Usage: $0 {start|stop|restart}"
+    exit 1
+}
+
+if [ $# -ne 1 ]; then
+    usage
+fi
+
+case "$1" in
+    start)
+        start_process
+        ;;
+    stop)
+        stop_process
+        ;;
+    restart)
+        restart_process
+        ;;
+    *)
+        usage
+        ;;
+esac
+
+exit 0
