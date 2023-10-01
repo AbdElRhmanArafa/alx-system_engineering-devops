@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# display  clock.
+
+min=0
+hour=1
+while [ $hour -le 12 ];
+do
+    ((min=0))
+    while [ $min -le 59 ];
+    do
+        echo "$min"
+        ((min++))
+    done
+    echo "Hour: $hour"
+    ((hour++))
+done
