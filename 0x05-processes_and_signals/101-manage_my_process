@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
 # work with deamons
-PROCESS_NAME="manage_my_process"
-PROCESS_EXEC="./manage_my_process"
+
 PID_FILE="/var/run/my_process.pid"
 
 create()
 {
-    sudo touch $FILE
-    sudo bash -c "echo $$ > $FILE"
+    sudo touch $PID_FILE
+    sudo bash -c "echo $$ > $PID_FILE"
 }
 
 start_process() {
