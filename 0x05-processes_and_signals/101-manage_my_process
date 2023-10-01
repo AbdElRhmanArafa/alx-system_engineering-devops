@@ -22,9 +22,9 @@ stop_process() {
 }
 
 restart_process() {
-    stop_process
-    start_process
-    echo "$PROCESS_NAME restarted."
+    $0 stop >& /dev/null
+    $0 start >& /dev/null
+    echo "manage_my_process restarted"
 }
 
 usage() {
